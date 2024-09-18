@@ -19,10 +19,11 @@
 
 |   Info      |        Description     |
 | ----------- | ---------------------- |
-|  Title      |       ProjectTitle     |
+|  Title      |       Currents    |
 | System URL  |      link_to_system    |
 | Video Link  |      link_to_video     |
 
 ## Project Summary
 
-This is a summary of the project!
+Currents will be an innovative weather and marine data dashboard designed to revolutionize data visualization for meteorologists and marine scientists. The platform will offer an interactive experience, enabling users to explore both historical and projected weather trends, along with essential weather and atmospheric metrics, delivering deeper insights for climate analysis and forecasting.
+
