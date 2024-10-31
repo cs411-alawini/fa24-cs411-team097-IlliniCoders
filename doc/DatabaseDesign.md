@@ -14,7 +14,7 @@
 
 ## UML Diagram
 
-![UML diagram of the database design we envision](img/database_design_diagram.png)
+![UML diagram of the database design we envision](img/database_design_diagram_v2.png)
 
 ## Reasoning
 
