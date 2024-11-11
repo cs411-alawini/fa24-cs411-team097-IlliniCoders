@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 
-const SearchBar: React.FC = () => {
+// Users can search based on a region ID
+const NaturalDisasterSearch: React.FC = () => {
     const [query, setQuery] = useState<string>(''); // Define the state type as string
     const [ results] = useState([]);
 
@@ -19,7 +20,7 @@ const SearchBar: React.FC = () => {
                 type="text"
                 value={query}
                 onChange={handleInputChange}
-                placeholder="Search..."
+                placeholder="Enter Natural Disaster..."
                 style={{ padding: '8px', fontSize: '16px' }}
             />
             <button onClick={handleSearch} style={{ padding: '8px', marginLeft: '8px' }}>
@@ -29,4 +30,4 @@ const SearchBar: React.FC = () => {
     );
 };
 
-export default SearchBar;
+export default NaturalDisasterSearch;
