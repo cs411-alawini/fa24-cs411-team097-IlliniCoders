@@ -1,6 +1,8 @@
 import React from "react";
 import OceanSpeciesSearch from "../components/oceanSpeciesSearch";
 import NaturalDisasterSearch from "../components/naturalDisasterSearch";
+import LatSlider from "../components/latSlider"
+import LongSlider from "../components/longSlider"
 
 const MainPage: React.FC = () => {
     return (
@@ -15,6 +17,10 @@ const MainPage: React.FC = () => {
                     <h2 style={{ margin: 0 }}>Search Natural Disaster</h2>
                     <NaturalDisasterSearch />
                 </div>
+                <div style={{ marginTop: '40px' }}> {/* Optional spacing for layout */}
+                    <LongSlider />
+                    <LatSlider />
+            </div>
             </div>
         </div>
     );
