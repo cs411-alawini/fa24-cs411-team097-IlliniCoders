@@ -9,9 +9,24 @@ const NaturalDisasterSearch: React.FC = () => {
         setQuery(event.target.value); // Update the query with the input value
     };
 
+    const sendData = async () => {
+        try {
+            const res = await fetch('http://127.0.0.1:5000/data', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'text/plain',
+            },
+            body: query,
+        });
+        } catch (error) {
+            console.error("Error sending data:", error);
+        }
+    };
+
     const handleSearch = () => {
         // set results to be what the database returns
         console.log(`Query: ${query}`); // Perform search logic here
+        sendData();
     };
 
     return (
