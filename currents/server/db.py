@@ -23,15 +23,22 @@ def getconn() -> pymysql.connections.Connection:
 
     return conn 
 
-def get_natural_disaster(d_name):
+def get_natural_disaster(input):
     pool = sqlalchemy.create_engine(
         "mysql+pymysql://",
         creator=getconn,
     )
     
     with pool.connect() as db_conn:
+        print('input:', input, type(input), input.get("query"))
+
+        d_name = input.get("query")
+        d_name = str.upper(d_name) + "\r"
         query = f'SELECT * FROM NaturalDisaster WHERE name = "{d_name}" LIMIT 15;'
+        # query = f'SELECT * FROM NaturalDisaster LIMIT 15;'
+
         disasters = db_conn.execute(sqlalchemy.text(query)).fetchall()
+
         for row in disasters:
             print(row)
     connector.close()
