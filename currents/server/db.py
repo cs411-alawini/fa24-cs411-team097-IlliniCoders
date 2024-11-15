@@ -13,11 +13,11 @@ connector = Connector()
 
 def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
-        db_connection_name,
+        "cs411project-439519:us-central1:db-currents",
         "pymysql",
-        user=db_user,
-        password=db_password,
-        db=db_name
+        user="demo",
+        password="currents",
+        db="Currents"
     )
     print('conn successful')
 
@@ -30,15 +30,24 @@ def get_natural_disaster(input):
     )
     
     with pool.connect() as db_conn:
-        print('input:', input, type(input), input.get("query"))
+  #      print('input:', input, type(input), input.get("query"))
 
-        d_name = input.get("query")
-        d_name = str.upper(d_name) + "\r"
+        #d_name = input.get("query")
+        d_name = str.upper(input) + "\r"
         query = f'SELECT * FROM NaturalDisaster WHERE name = "{d_name}" LIMIT 15;'
         # query = f'SELECT * FROM NaturalDisaster LIMIT 15;'
 
         disasters = db_conn.execute(sqlalchemy.text(query)).fetchall()
-
+        out = []
         for row in disasters:
-            print(row)
+            tmp = []
+            for i in row:
+                tmp.append(i)
+                #print(i)
+            out.append(tmp)
+            #print(row.values())
+            #out.append(row)
+
+    print(out)
     connector.close()
+    return out
