@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from google.cloud.sql.connector import Connector
 import pymysql
 import sqlalchemy
+from datetime import datetime
 
 db_user = os.environ.get('CLOUD_SQL_USERNAME')
 db_password = os.environ.get('CLOUD_SQL_PASSWORD')
@@ -23,30 +24,31 @@ def getconn() -> pymysql.connections.Connection:
 
     return conn 
 
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn,
+)
+
 def get_natural_disaster(input):
-    pool = sqlalchemy.create_engine(
-        "mysql+pymysql://",
-        creator=getconn,
-    )
     
     with pool.connect() as db_conn:
-  #      print('input:', input, type(input), input.get("query"))
-
-        #d_name = input.get("query")
         d_name = str.upper(input) + "\r"
-        query = f'SELECT * FROM NaturalDisaster WHERE name = "{d_name}" LIMIT 15;'
-        # query = f'SELECT * FROM NaturalDisaster LIMIT 15;'
+        query = f'SELECT region_id, date, name, max_wind, min_pressure FROM NaturalDisaster WHERE name = "{d_name}" LIMIT 15;'
 
         disasters = db_conn.execute(sqlalchemy.text(query)).fetchall()
         out = []
         for row in disasters:
             tmp = []
-            for i in row:
-                tmp.append(i)
-                #print(i)
+            for idx, i in enumerate(row):
+                if idx == 1:
+                    tmp.append(datetime.strptime(i, '%Y%m%d').strftime('%Y-%m-%d'))
+                elif idx == 3 or idx == 4:
+                    tmp.append(float(i))
+                elif idx == 2:
+                    tmp.append(i.rstrip('\r').lower().capitalize())
+                else:
+                    tmp.append(i)
             out.append(tmp)
-            #print(row.values())
-            #out.append(row)
 
     print(out)
     connector.close()

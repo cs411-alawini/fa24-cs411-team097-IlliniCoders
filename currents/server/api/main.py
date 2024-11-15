@@ -24,7 +24,6 @@ def receive_data():
     
     if request.method == 'GET':
         return jsonify({"data": "hi"}), 200
-# @app.route("/getNat/<int:Nat_Name>", methods=["GET"])
- #def
+    
 if __name__ == '__main__':
     app.run(debug=True)
