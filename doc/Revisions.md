@@ -1,5 +1,10 @@
 # Revisions
 
+## Revisions for Stage 3
+Included with Stage 3 Revisions Release.
+
+- Revised indexing section for query 3 and query 4 to exclude primary key from consideration for indexing trials.
+
 ## Revisions for Stage 2
 Included with Stage 3 Release.
 

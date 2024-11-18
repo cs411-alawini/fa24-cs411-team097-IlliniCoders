@@ -239,13 +239,15 @@ The cost of the nested inner loop join is $6371.58$.
 
 The cost of the nested inner loop join is $6301.03$.
 
-**4. With an index on `NaturalDisaster.region_id`:**
+Our final selection for index design is to use `NaturalDisaster.min_pressure` as an index. Prior to indexing, the original cost of the query was 6372.31. 
 
-![Screenshot of indexing analysis report with an index on region_id for query 3](img/query3_analysis_report_idx3.png)
+The first index we tried was max_wind from the NaturalDisaster entity, which slightly reduced the cost to 6371.58. 
 
-The cost of the nested inner loop join is $6301.03$.
+The second try was indexing on min_pressure from NaturalDisaster, which reduced the cost further to 6301.03. 
 
-Our final selection for index design is to use `NaturalDisaster.min_pressure` as an index. Prior to indexing, the original cost of the query was 6372.31. The first index we tried was max_wind from the NaturalDisaster entity, which slightly reduced the cost to 6371.58. The second try was indexing on min_pressure from NaturalDisaster, which reduced the cost further to 6301.03. The last choice we tried was indexing on region_id from NaturalDisaster, which also resulted in a cost of 6301.03. For this case, indexing improved the query’s performance. We theorize this is due to the min_pressure being used as a selective filter for the query in the WHERE condition.
+Since there were no other attributes to try indexing on, and the primary key is not a valid choice to index on due to it automatically being indexed, we did not have a third indexing attempt. 
+
+For this case, indexing improved the query’s performance. We theorize this is due to the min_pressure being used as a selective filter for the query in the WHERE condition.
 
 ### Indexing for query 4
 
@@ -261,16 +263,18 @@ The cost of the OceanSpecies.region_id filter with no indexing is $117298.55$. T
 
 The cost of the Weather.precipitation filter is $35495.72$.
 
-**3. With an index on `OceanSpecies.region_id`:**
-
-![Screenshot of indexing analysis report with an index on region_id for query 4](img/query4_analysis_report_idx2.png)
-
-The cost of the OceanSpecies.region_id filter is $117469.14$.
-
-**4. With an index on `OceanSpecies.scientific_name`:**
+**3. With an index on `OceanSpecies.scientific_name`:**
 
 ![Screenshot of indexing analysis report with an index on scientific_name for query 4](img/query4_analysis_report_idx3.png)
 
 The cost of the OceanSpecies.region_id filter is $117208.90$.
 
-Our final selection for index design is to use `Weather.precipitation` as an index. Prior to indexing, the original cost of the query was high at 117298.55 from the perspective of the OceanSpecies.region_id filter, and 71403.64 from the perspective of the Weather.precipitation filter. Indexing on precipitation from the Weather table resulted in an improved performance at a cost of 35495.72 for the precipitation filter. Indexing on region_id and scientific_name from OceanSpecies resulted in slight deviations from the original cost for the region_id filter, at 117469.14 and 117208.90, respectively. For this case, indexing improved the query’s performance. We theorize this is due to precipitation being used as a selective filter for the query in the WHERE condition. Additionally, since the Weather table contains more data, index attributes from the Weather table are able to improve performance significantly.
+Our final selection for index design is to use `Weather.precipitation` as an index. Prior to indexing, the original cost of the query was high at 117298.55 from the perspective of the OceanSpecies.region_id filter, and 71403.64 from the perspective of the Weather.precipitation filter. 
+
+Indexing on precipitation from the Weather table resulted in an improved performance at a cost of 35495.72 for the precipitation filter. 
+
+Indexing on scientific_name from OceanSpecies resulted in slight deviations from the original cost for the region_id filter, at 117469.14 and 117208.90, respectively. 
+
+Since there were no other attributes to try indexing on, and the primary key is not a valid choice to index on due to it automatically being indexed, we did not have a third indexing attempt. 
+
+For this case, indexing improved the query’s performance. We theorize this is due to precipitation being used as a selective filter for the query in the WHERE condition. Additionally, since the Weather table contains more data, index attributes from the Weather table are able to improve performance significantly.
