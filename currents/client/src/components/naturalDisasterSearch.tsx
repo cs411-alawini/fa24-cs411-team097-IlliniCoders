@@ -1,9 +1,11 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios'
 // Users can search based on a region ID
-const NaturalDisasterSearch: React.FC = () => {
+interface nds {
+    get_result: (result: any[])=>void;
+}
+const NaturalDisasterSearch: React.FC<nds> = ({get_result}) => {
     const [query, setQuery] = useState<string>(''); // Define the state type as string
-    // const [ results] = useState([]);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value); // Update the query with the input value
@@ -13,6 +15,8 @@ const NaturalDisasterSearch: React.FC = () => {
         try {
             const res = await axios.post('http://127.0.0.1:5000/data', {query});
             console.log(res.data);
+            get_result(res.data)
+            
         } catch (error) {
             console.error("Error sending data:", error);
         }
