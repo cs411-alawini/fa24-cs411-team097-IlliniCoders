@@ -14,10 +14,10 @@ connector = Connector()
 
 def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
-        "cs411project-439519:us-central1:db-currents",
+        db_connection_name,
         "pymysql",
-        user="demo",
-        password="currents",
+        db_user,
+        db_password,
         db="Currents"
     )
     print('conn successful')
@@ -37,6 +37,7 @@ def get_natural_disaster(input):
 
         disasters = db_conn.execute(sqlalchemy.text(query)).fetchall()
         out = []
+        out.append(["Region", "Date", "Name", "Maximum Wind Speed (kts)", "Minimum Pressure (mb)"])
         for row in disasters:
             tmp = []
             for idx, i in enumerate(row):
