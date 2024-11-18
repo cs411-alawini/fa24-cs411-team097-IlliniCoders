@@ -14,10 +14,10 @@ connector = Connector()
 
 def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
-        "cs411project-439519:us-central1:db-currents",
+        db_connection_name,
         "pymysql",
-        user="demo",
-        password="currents",
+        user=db_user,
+        password=db_password,
         db="Currents"
     )
     print('conn successful')
