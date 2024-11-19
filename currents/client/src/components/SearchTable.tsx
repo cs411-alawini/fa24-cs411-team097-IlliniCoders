@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import "./SearchTable.css"
 import axios from 'axios'
 // Users can search based on a region ID
 interface st {
@@ -9,7 +10,9 @@ interface st {
     
 
 const SearchTable : React.FC<st> = ({data}) => {
-    const rows = Object.values(data).map((element, idx) => {
+    const data_array: any[] = Object.values(data)[0] || [];
+    const rows = data_array.map((element:any[], idx:number) => {
+        console.log(Object.values(data)[0][0]);
         console.log(element);
         return (
         <tr key={idx}>
@@ -30,34 +33,36 @@ const SearchTable : React.FC<st> = ({data}) => {
     };
     return (
         <div>
-<table>            
-            <thead>
+                <table className='table'>            
+                <thead>
                             <tr>
                                     <th>
-                                    <button  onClick={()=> sort_column("")}>?</button>
+                                    <button  onClick={()=> sort_column("")}>Region Id</button>
                                 </th>
                                 <th>
-                                    <button  onClick={()=> sort_column("")}>?</button>
+                                    <button  onClick={()=> sort_column("")}>Date</button>
                                 </th>
                                  <th>
-                                    <button  onClick={()=> sort_column("")}>?</button>
+                                    <button  onClick={()=> sort_column("")}>Max Wind</button>
                                 </th>                               
                                 <th>
-                                    <button  onClick={()=> sort_column("")}>?</button>
+                                    <button  onClick={()=> sort_column("")}>Min Pressure</button>
                                 </th>
 
                                 <th>
-                                    <button  onClick={()=> sort_column("")}>?</button>
+                                    <button  onClick={()=> sort_column("")}>Name</button>
                                 </th>
 
 
 
 
                             </tr>
-            </thead>
-                        <tbody>{rows}</tbody>
-       </table>
-                        </div>
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

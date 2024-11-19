@@ -6,7 +6,7 @@ import LongSlider from "../components/longSlider"
 import SearchTable from "../components/SearchTable"
 
 const MainPage: React.FC = () => {
-    const [result, set_result] = useState([]);
+    const [result, set_result] = useState<any[]>([]);
     return (
         <div style={{ backgroundColor: 'lavender', minHeight: '100vh', padding: '20px', boxSizing: 'border-box' }}>
             <h1 style={{ fontStyle: 'italic', marginBottom: '20px', textAlign: 'center' }}>Currents</h1>
