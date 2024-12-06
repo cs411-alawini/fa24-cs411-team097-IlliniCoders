@@ -1,47 +1,91 @@
-import React, { useState, ChangeEvent } from 'react';
-import axios from 'axios'
+import React, { useState, ChangeEvent } from "react";
+import axios from "axios";
 
 interface nds {
-    get_result: (result: any[])=>void;
+  get_result: (result: any[]) => void;
 }
-const NaturalDisasterSearch: React.FC<nds> = ({get_result}) => {
-    const [query, setQuery] = useState<string>(''); // Define the state type as string
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setQuery(event.target.value); // Update the query with the input value
-    };
+const NaturalDisasterSearch: React.FC<nds> = ({ get_result }) => {
+  const [formData, setFormData] = useState({
+    natural_disaster: "",
+    ocean_species: "",
+    latitude: "",
+    longitude: "",
+  });
 
-    const sendData = async () => {
-        try {
-            const res = await axios.post('http://127.0.0.1:5000/data', {query});
-            console.log(res.data);
-            get_result(res.data)
-            
-        } catch (error) {
-            console.error("Error sending data:", error);
-        }
-    };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-    const handleSearch = () => {
-        // set results to be what the database returns
-        console.log(`Query: ${query}`); // Perform search logic here
-        sendData();
-    };
+  const sendData = async () => {
+    try {
+      const res = await axios.post("http://127.0.0.1:5000/data", formData, {
+        headers: { "Content-Type": "application/json" }, // Ensure JSON payload
+      });
+      console.log("Response:", res.data);
+      get_result(res.data.data); // Use `data` key from response
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
 
-    return (
-        <div>
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Enter Natural Disaster..."
-                style={{ padding: '8px', fontSize: '16px' }}
-            />
-            <button onClick={handleSearch} style={{ padding: '8px', marginLeft: '8px' }}>
-                Enter
-            </button>
-        </div>
-    );
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent page reload
+    console.log("Form Data:", formData);
+    sendData(); // Send form data to the backend
+  };
+
+  return (
+    <div>
+      <form
+        onSubmit={handleSearch}
+        style={{ padding: "8px", marginLeft: "8px" }}
+      >
+        <label>
+          Natural Disaster:
+          <input
+            type="text"
+            name="natural_disaster"
+            value={formData.natural_disaster}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Ocean Species:
+          <input
+            type="text"
+            name="ocean_species"
+            value={formData.ocean_species}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Latitude:
+          <input
+            type="text"
+            name="latitude"
+            value={formData.latitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Longitude:
+          <input
+            type="text"
+            name="longitude"
+            value={formData.longitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
 };
 
 export default NaturalDisasterSearch;

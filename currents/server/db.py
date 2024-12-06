@@ -14,7 +14,11 @@ connector = Connector()
 
 def getconn() -> pymysql.connections.Connection:
     conn: pymysql.connections.Connection = connector.connect(
-       
+        "cs411project-439519:us-central1:db-currents",
+        "pymysql",
+        user="demo",
+        password="currents",
+        db="Currents"
     )
     print('conn successful')
 
@@ -28,6 +32,7 @@ pool = sqlalchemy.create_engine(
 def get_natural_disaster(input):
     
     with pool.connect() as db_conn:
+        print(input)
         d_name = str.upper(input) + "\r"
         query = f'SELECT region_id, date, name, max_wind, min_pressure FROM NaturalDisaster WHERE name = "{d_name}" LIMIT 15;'
 
