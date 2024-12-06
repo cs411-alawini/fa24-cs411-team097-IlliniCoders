@@ -15,7 +15,7 @@ def receive_data():
             return jsonify({"error": "No data found,"}), 404
     
 
-        return jsonify({"data": get_natural_disaster(data.get("natural_disaster"))}), 200
+        return jsonify({"data": get_natural_disaster(data.get('min_latitude'), data.get('max_latitude'), data.get('min_longitude'), data.get('max_longitude'))}), 200
     
     if request.method == 'GET':
         return jsonify({"data": "hi"}), 200

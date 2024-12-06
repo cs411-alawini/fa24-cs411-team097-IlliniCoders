@@ -7,10 +7,10 @@ interface nds {
 
 const NaturalDisasterSearch: React.FC<nds> = ({ get_result }) => {
   const [formData, setFormData] = useState({
-    natural_disaster: "",
-    ocean_species: "",
-    latitude: "",
-    longitude: "",
+    min_latitude: "",
+    max_latitude: "",
+    min_longitude: "",
+    max_longitude: ""
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,44 +43,46 @@ const NaturalDisasterSearch: React.FC<nds> = ({ get_result }) => {
         style={{ padding: "8px", marginLeft: "8px" }}
       >
         <label>
-          Natural Disaster:
+          Minimum Latitude:
           <input
             type="text"
-            name="natural_disaster"
-            value={formData.natural_disaster}
+            name="min_latitude"
+            value={formData.min_latitude}
             onChange={handleChange}
           />
         </label>
         <br />
         <label>
-          Ocean Species:
+          Maximum Latitude:
           <input
             type="text"
-            name="ocean_species"
-            value={formData.ocean_species}
+            name="max_latitude"
+            value={formData.max_latitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <br />
+        <label>
+          Minimum Longitude:
+          <input
+            type="text"
+            name="min_longitude"
+            value={formData.min_longitude}
             onChange={handleChange}
           />
         </label>
         <br />
         <label>
-          Latitude:
+          Maximum Longitude:
           <input
             type="text"
-            name="latitude"
-            value={formData.latitude}
+            name="max_longitude"
+            value={formData.max_longitude}
             onChange={handleChange}
           />
         </label>
         <br />
-        <label>
-          Longitude:
-          <input
-            type="text"
-            name="longitude"
-            value={formData.longitude}
-            onChange={handleChange}
-          />
-        </label>
         <br />
         <input type="submit" value="Submit" />
       </form>
