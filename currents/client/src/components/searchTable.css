@@ -1,0 +1,6 @@
+.table          { overflow: auto; height: 100px; }
+.table thead th { position: sticky; top: 0; z-index: 1; } 
+
+.table table  { border-collapse: collapse; width: 100%; }
+.table th, td { padding: 8px 16px; }
+.table th     { background:#8d8db2; }
