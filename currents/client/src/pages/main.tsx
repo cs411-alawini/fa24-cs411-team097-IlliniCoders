@@ -12,7 +12,7 @@ const MainPage: React.FC = () => {
                     <h2 style={{ margin: 0 }}>Data Playground</h2>
                     <NaturalDisasterSearch get_result={set_result}/>
                 </div>
-                <SearchTable data1={result} data2={[]}/>
+                <SearchTable data1={result[0]} data2={result[1]}/>
                 <div>
                 </div>
             </div>
