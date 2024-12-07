@@ -43,6 +43,7 @@ const SearchTable: React.FC<st> = ({ data1, data2 }) => {
     <div>
       <div>
         <h3>Natural Disasters</h3>
+        <div className="table-container">
         <table className="table">
           <thead>
             <tr>
@@ -55,10 +56,12 @@ const SearchTable: React.FC<st> = ({ data1, data2 }) => {
           </thead>
           <tbody>{rows1}</tbody>
         </table>
+        </div>
       </div>
 
       <div>
         <h3>Ocean Species</h3>
+        <div className="table-container">
         <table className="table">
           <thead>
             <tr>
@@ -72,6 +75,7 @@ const SearchTable: React.FC<st> = ({ data1, data2 }) => {
           </thead>
           <tbody>{rows2}</tbody>
         </table>
+        </div>
       </div>
     </div>
   );

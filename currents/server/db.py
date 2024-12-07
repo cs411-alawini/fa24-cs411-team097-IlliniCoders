@@ -4,7 +4,7 @@ from google.cloud.sql.connector import Connector
 import pymysql
 import sqlalchemy
 import datetime
-from datetime import timezone, datetime
+from datetime import timezone
 
 db_user = os.environ.get('CLOUD_SQL_USERNAME')
 db_password = os.environ.get('CLOUD_SQL_PASSWORD')
@@ -81,7 +81,7 @@ def get_natural_disaster(min_lat, max_lat, min_long, max_long):
             tmp = []
             for idx, i in enumerate(row):
                 if idx == 2 or idx == 3:
-                    date_utc = datetime.datetime.fromtimestamp(timestamp, tz=timezone.utc)
+                    date_utc = datetime.datetime.fromtimestamp(timestamp, tz=datetime.timezone.utc)
                     tmp.append(date_utc.strftime('%Y-%m-%d %H:%M:%S'))
                 elif idx == 4 or idx == 5:
                     tmp.append(float(i))
