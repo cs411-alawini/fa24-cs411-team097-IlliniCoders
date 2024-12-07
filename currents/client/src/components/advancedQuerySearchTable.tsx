@@ -25,7 +25,7 @@ const SearchTable: React.FC<st> = ({ data1 }) => {
   return (
     <div>
       <div>
-        <h3>Advanced Query 1</h3>
+        <h3>Do you want to find the average weather metrics for each region during natural disasters?</h3>
         <div className="table-container">
         <table className="table">
           <thead>
@@ -33,7 +33,7 @@ const SearchTable: React.FC<st> = ({ data1 }) => {
               <th>Region ID</th>
               <th>Date</th>
               <th>Average Max Temperature</th>
-              <th>Average Percipitation</th>
+              <th>Average Precipitation</th>
               <th>Average Min Temperature</th>
             </tr>
           </thead>

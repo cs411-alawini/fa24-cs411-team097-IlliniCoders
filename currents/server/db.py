@@ -36,7 +36,7 @@ def format_date(date_string):
     day = date_string[6:]
     return f"{year}-{month}-{day}"
 
-def get_natural_disaster(min_lat, max_lat, min_long, max_long):
+def get_results(min_lat, max_lat, min_long, max_long):
     now = datetime.datetime.now()
     timestamp = int(now.strftime("%H%M%S"))
 
@@ -103,7 +103,6 @@ def get_advanced_query1():
             tmp = []
             for idx, i in enumerate(row):
                 if idx == 1:
-                    print(i)
                     tmp.append(format_date(str(i)))
                 elif idx == 3 or idx == 4 or idx == 2:
                     tmp.append(int(i)) 
@@ -152,6 +151,22 @@ def get_advanced_query3():
 def get_advanced_query4():
     with pool.connect() as db_conn:
         query1 = f'SELECT OceanSpecies.region_id, OceanSpecies.scientific_name FROM OceanSpecies WHERE OceanSpecies.region_id IN ( SELECT region_id FROM Weather WHERE precipitation> 100 GROUP BY region_id HAVING COUNT(*) > 5 ) ORDER BY OceanSpecies.region_id LIMIT 100;'
+
+        result = db_conn.execute(sqlalchemy.text(query1)).fetchall()
+        out = []
+        for row in result:
+            tmp = []
+            for elem in (row):
+                tmp.append(elem)
+            out.append(tmp)
+
+    print(out)
+    connector.close()
+    return out
+
+def sessions_query():
+    with pool.connect() as db_conn:
+        query1 = f'SELECT * FROM Sessions ORDER BY timestamp DESC LIMIT 20;'
 
         result = db_conn.execute(sqlalchemy.text(query1)).fetchall()
         out = []

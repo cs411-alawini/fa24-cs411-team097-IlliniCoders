@@ -62,7 +62,6 @@ const NaturalDisasterSearch: React.FC<nds> = ({ get_result }) => {
           />
         </label>
         <br />
-        <br />
         <label>
           Minimum Longitude:
           <input

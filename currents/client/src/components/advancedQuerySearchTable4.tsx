@@ -22,7 +22,7 @@ const SearchTable: React.FC<st> = ({ data1 }) => {
   return (
     <div>
       <div>
-        <h3>Advanced Query 4</h3>
+        <h3>Do you want to find ocean species that live in regions where there were at least 5 days in which the precipitation was over 100 (cm)?</h3>
         <div className="table-container">
         <table className="table">
           <thead>
