@@ -1,43 +1,93 @@
-import React, { useState, ChangeEvent } from 'react';
-import axios from 'axios'
-// Users can search based on a region ID
-const NaturalDisasterSearch: React.FC = () => {
-    const [query, setQuery] = useState<string>(''); // Define the state type as string
-    // const [ results] = useState([]);
+import React, { useState, ChangeEvent } from "react";
+import axios from "axios";
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setQuery(event.target.value); // Update the query with the input value
-    };
+interface nds {
+  get_result: (result: any[]) => void;
+}
 
-    const sendData = async () => {
-        try {
-            const res = await axios.post('http://127.0.0.1:5000/data', {query});
-            console.log(res.data);
-        } catch (error) {
-            console.error("Error sending data:", error);
-        }
-    };
+const NaturalDisasterSearch: React.FC<nds> = ({ get_result }) => {
+  const [formData, setFormData] = useState({
+    min_latitude: "",
+    max_latitude: "",
+    min_longitude: "",
+    max_longitude: ""
+  });
 
-    const handleSearch = () => {
-        // set results to be what the database returns
-        console.log(`Query: ${query}`); // Perform search logic here
-        sendData();
-    };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-    return (
-        <div>
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Enter Natural Disaster..."
-                style={{ padding: '8px', fontSize: '16px' }}
-            />
-            <button onClick={handleSearch} style={{ padding: '8px', marginLeft: '8px' }}>
-                Enter
-            </button>
-        </div>
-    );
+  const sendData = async () => {
+    try {
+      const res = await axios.post("http://127.0.0.1:5000/data", formData, {
+        headers: { "Content-Type": "application/json" }, // Ensure JSON payload
+      });
+      console.log("Response:", res.data);
+      get_result(res.data.data); // Use `data` key from response
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent page reload
+    console.log("Form Data:", formData);
+    sendData(); // Send form data to the backend
+  };
+
+  return (
+    <div>
+      <form
+        onSubmit={handleSearch}
+        style={{ padding: "8px", marginLeft: "8px" }}
+      >
+        <label>
+          Minimum Latitude:
+          <input
+            type="text"
+            name="min_latitude"
+            value={formData.min_latitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Maximum Latitude:
+          <input
+            type="text"
+            name="max_latitude"
+            value={formData.max_latitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <br />
+        <label>
+          Minimum Longitude:
+          <input
+            type="text"
+            name="min_longitude"
+            value={formData.min_longitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Maximum Longitude:
+          <input
+            type="text"
+            name="max_longitude"
+            value={formData.max_longitude}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
 };
 
 export default NaturalDisasterSearch;
