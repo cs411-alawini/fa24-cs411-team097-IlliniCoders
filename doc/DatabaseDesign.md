@@ -14,13 +14,13 @@
 
 ## UML Diagram
 
-![UML diagram of the database design we envision](img/database_design_diagram_v2.png)
+![UML diagram of the database design we envision](img/database_design_diagram_v3.png)
 
 ## Reasoning
 
 The Weather entity holds the weather data for each day in each region.  The original weather data contains data for many specific coordinates; thus, Weather entity data is aggregated for each region, as determined by the Region entity, to simplify the querying of data and limit the amount of data that we need to store. Multiple rows can have the same region_id, since the weather entity contains a separate row for each day in the region. Likewise, multiple rows can have the same date. However the combination of region and date should be unique; thus, the combination of date and region is the primary key for this entity. Since each of the attributes are weather specific it would not make sense for them to be in any of the other entities. Weather has a one-to-one relationship to Regions, since each entry in Weather maps to one Region. Weather also has a many-to-many relationship to NaturalDisaster, as each date and region combination can map to zero or more disasters.
 
-The Sessions entity organizes the various sessions that a user starts in the application. Here, we define a single session as an input or series of inputs that the user enters in order to customize the view of the data dashboard. For this reason, we assign each session a unique session ID, serving as the primary key. Each session has an associated weather and/or biodiversity query, modeled as a string with the minimum necessary information about the input parameters to the dashboard view. Additionally, each session has an expiration, modeled as a string containing the date of expiry. The expiration attribute enables the user to look through a limited history of their previous searches, balancing usefulness with data storage requirements. The cardinality of Sessions is 4. We modeled Sessions as a separate entity due to the ability to organize a single capture of a user’s interactions with the app as a tuple, but more importantly in order to be able to retrieve a recently viewed dashboard snapshot within the date of expiry. The Sessions entity is unlinked to the other entities.
+The Sessions entity organizes the various sessions that a user starts in the application. Here, we define a single session as an input or series of inputs that the user enters in order to customize the view of the data dashboard. For this reason, we assign each session a unique session ID, serving as the primary key. Each session has an associated min_lat, max_lat, min_long, max_long. Additionally, each session has a rerun boolean value that allows users to see whether those values they entered are repeated, and a timestamp to see the time at which the values were entered. The rerun value and the timestamp are used to delete duplicate results. The cardinality of Sessions is 7. We modeled Sessions as a separate entity so that we could organize captures of a user’s interactions with the app and see unique queries. The Sessions entity is unlinked to the other entities.
 
 ​​NaturalDisaster is a collection of data focusing on hurricanes and when they occurred and other statistics like their maximum wind speed and minimum pressure. It is modeled as its own entity because it captures unique information about hurricanes that the other tables like Weather cannot hold. In addition, not all regions in our database have had a natural disaster. The primary key of this table is the combination of region_id, date (day natural disaster occurs), and name since the occurrence of the natural disaster depends on where it occurred (region_id) and when it occurred (date) and the name identifies it. The cardinality of the relationship between NaturalDisaster and Regions is many to many. The same is true for the relationship between NaturalDisaster and Weather. The same natural disaster can occur in multiple regions based on our region_ids. Likewise, one region_id can have multiple natural disasters that occurred on different days.
 
@@ -38,9 +38,9 @@ For Weather(A, B, C, D, E, F, G, H, I) let A = region_id, B = temperature , C = 
 
 ### Sessions
 
-![Attribute-labeled Sessions entity](img/sessions_entity.png)
+![Attribute-labeled Sessions entity](img/sessions_entity_v2.png)
 
-We have Sessions(A, B, C, D) where A = session_id, B = weather_query, C = biodiversity_query, and D = expiration. The set of FDs for this relation is {A → B, A → C, A → D}. This is, by itself, a minimal basis. We condense these functional dependencies into A → BCD. A is a superkey; we have connected LHS with the remaining attributes. Thus the resulting 3NF decomposition is the relation with the schema S(A, B, C, D), which is our original schema. Therefore, the Sessions entity is already in 3NF.
+We have Sessions(A, B, C, D, E, F, G) where A=session_id, B=min_lat, C=max_lat, and D=min_long, E=max_long, F=rerun, G=timestamp. The set of FDs for this relation is {A→B, A→C, A→D, A→E, A→F, A→G}. This is, by itself, a minimal basis. We condense these functional dependencies into A→BCDEFG. A is a superkey; we have connected LHS with the remaining attributes. Thus the resulting 3NF decomposition is the relation with the schema S(A, B, C, D, E, F, G), which is our original schema. Therefore, the Sessions entity is already in 3NF.
 
 ### Ocean Species
 

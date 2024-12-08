@@ -1,5 +1,20 @@
 # Revisions
 
+## Final Revisions
+Included with Stage 4 Release.
+
+To reflect changes in Sessions entity:
+- In `DatabaseDesign.md`:
+  - Updated database design diagram (`img/database_design_diagram_v3.png`).
+  - Updated Sessions entity description and its 3NF normalization.
+- In `DatabaseImplementationIdx.md`:
+  - Updated table creation command for Sessions.
+
+## Revisions for Stage 3
+Included with Stage 3 Revisions Release.
+
+- Revised indexing section for query 3 and query 4 to exclude primary key from consideration for indexing trials.
+
 ## Revisions for Stage 2
 Included with Stage 3 Release.
 

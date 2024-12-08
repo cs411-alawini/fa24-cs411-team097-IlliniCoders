@@ -61,9 +61,12 @@ FOREIGN KEY (region_id) REFERENCES Regions(region_id) ON DELETE CASCADE);
 ```sql
 CREATE TABLE Sessions(
 session_id INT PRIMARY KEY,
-weather_query VARCHAR(500),
-biodiversity_query VARCHAR(500),
-expiration VARCHAR(10));
+min_lat INT,
+max_lat INT,
+min_long INT,
+max_long INT,
+rerun BOOLEAN,
+timestamp INT);
 ```
 
 ```sql
